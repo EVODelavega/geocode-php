@@ -2,7 +2,7 @@
 
 namespace Geocode;
 
-use Geocode\Config\Config;
+use Geocode\Model\Config;
 
 class Api
 {

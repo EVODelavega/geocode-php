@@ -1,8 +1,8 @@
 <?php
-namespace Geocode\Config;
+namespace Geocode\Model;
 
 
-class Config
+class Config extends Data
 {
     const OUTPUT_JSON = 'json';
     const OUTPUT_XML = 'xml';
@@ -29,16 +29,6 @@ class Config
      * @var null|string
      */
     protected $key = null;
-
-    /**
-     * @param array|\stdClass|\Traversable|null $mixed
-     */
-    public function __construct($mixed = null)
-    {
-        if ($mixed instanceof \stdClass || $mixed instanceof \Traversable || is_array($mixed)) {
-            $this->setBulk($mixed);
-        }
-    }
 
     /**
      * @param string $key
@@ -184,29 +174,5 @@ class Config
     public function getOutput()
     {
         return $this->output;
-    }
-
-    /**
-     * @param array|\stdClass|\Traversable $mixed
-     * @return $this
-     */
-    public function setBulk($mixed)
-    {
-        foreach ($mixed as $k => $v) {
-            $setter = 'set'.implode(
-                    '',
-                    array_map(
-                        'ucfirst',
-                        explode(
-                            '_',
-                            $k
-                        )
-                    )
-                );
-            if (method_exists($this, $setter)) {
-                $this->{$setter}($v);
-            }
-        }
-        return $this;
     }
 }
