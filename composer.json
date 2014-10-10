@@ -1,0 +1,24 @@
+{
+    "name": "evodelavega/geocode-php",
+    "type": "library",
+    "description": "An API wrapper for Google's Geocoding API. Fully OO (data, config and responses are mapped to specific objects)",
+    "keywords": ["location", "API", "addresses", "google", "map", "maps", "gmap", "gmaps", "geocode", "geocoder", "wrapper"],
+    "homepage": "https://github.com/EVODelavega/geocode-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elias Van Ootegem",
+            "homepage": "http://eliasvo.wordpress.com/",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Geocode\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl": "*"
+    }
+}
