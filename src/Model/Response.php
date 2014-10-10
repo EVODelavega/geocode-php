@@ -26,6 +26,11 @@ class Response extends Data
     protected $results = null;
 
     /**
+     * @var string
+     */
+    protected $errorMessage = null;//optional error_message in response
+
+    /**
      * @var int
      */
     protected $errMode = self::ERRMODE_NOTICE;
@@ -43,11 +48,11 @@ class Response extends Data
      * @var array
      */
     private static $StatusErrors = array(
-        self::STATUS_EMPTY      => 'No results found',
-        self::STATUS_LIMIT      => 'You have reached the hourly/daily limit of API calls',
-        self::STATUS_DENIED     => 'Your request was denied by google',
-        self::STATUS_INVALID    => 'Your request was invalid',
-        self::STATUS_ERROR      => 'An unknown error occured'
+        self::STATUS_EMPTY      => 'No results found (%s)',
+        self::STATUS_LIMIT      => 'You have reached the hourly/daily limit of API calls (%s)',
+        self::STATUS_DENIED     => 'Your request was denied by google: %s',
+        self::STATUS_INVALID    => 'Your request was invalid: %s',
+        self::STATUS_ERROR      => 'An unknown error occured: %s'
     );
 
     public function __construct($mixed = null, $format = null)
@@ -90,6 +95,32 @@ class Response extends Data
             $mixed = $this->xmlToArray($mixed);
         }
         parent::__construct($mixed);
+    }
+
+    /**
+     * @param $msg
+     * @return $this
+     */
+    public function setErrorMessage($msg)
+    {
+        $this->errorMessage = $msg;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasErrorMessage()
+    {
+        return ($this->errorMessage !== null);
     }
 
     /**
@@ -144,9 +175,8 @@ class Response extends Data
         if ($level >= $this->errMode) {
             throw new \RuntimeException(
                 sprintf(
-                    'Error %s: %s',
-                    $stat,
-                    self::$StatusErrors[$stat]
+                    'Error '.$stat.': '.self::$StatusCodes[$stat],
+                    $this->hasErrorMessage() ? $this->getErrorMessage() : '-'
                 ),
                 $level
             );
