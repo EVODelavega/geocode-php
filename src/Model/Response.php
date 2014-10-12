@@ -130,8 +130,22 @@ class Response extends Data
      */
     public function setResults(array $results)
     {
+        foreach ($results as $result)
+        {
+            $address = $this->setAddressComponents($result->address_components);
+        }
         $this->results = $results;
         return $this;
+    }
+
+    protected function setAddressComponents(array $addressComponents)
+    {
+        $address = new Address();
+        foreach ($addressComponents as $component)
+        {
+            $address->setComponent($component);
+        }
+        return $address;
     }
 
     /**

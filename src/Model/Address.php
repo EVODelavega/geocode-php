@@ -40,6 +40,11 @@ class Address extends Data
     protected $locality = null;
 
     /**
+     * @var array
+     */
+    protected $shortAliases = array();
+
+    /**
      * Override parent, to add set-by-string wizardry
      * If a string is passed, a correctly formatted address is expected
      *
@@ -52,6 +57,24 @@ class Address extends Data
         }
         $this->setByAddressString($mixed);
         return $this;//return to silence IDE
+    }
+
+    public function setComponentObj(\stdClass $component)
+    {
+        $types = $component->types;
+        $property = implode(
+            '',
+            array_map(
+                'ucfirst'
+                explode(
+                    '_',
+                    $types[0]
+                )
+            )
+        );
+        $this->{'set'.$property}($component->long_name);
+        $this->shortAliases[$property] = $component->short_name;
+        return $this;
     }
 
     /**
