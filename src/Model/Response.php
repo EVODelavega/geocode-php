@@ -15,6 +15,7 @@ class Response extends Data
     const ERRMODE_NOTICE = 2;
     const ERRMODE_CRITIC = 3;
     const ERRMODE_SILENT = 4;
+
     /**
      * @var string
      */
@@ -24,6 +25,18 @@ class Response extends Data
      * @var array
      */
     protected $results = null;
+
+    /**
+     * @var string
+     */
+    protected $formattedAddress = null;
+
+    /**
+     * @var Address
+     */
+    protected $address = null;
+
+    protected $geometry = null;
 
     /**
      * @var string

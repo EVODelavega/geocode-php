@@ -65,7 +65,7 @@ class Address extends Data
         $property = implode(
             '',
             array_map(
-                'ucfirst'
+                'ucfirst',
                 explode(
                     '_',
                     $types[0]
